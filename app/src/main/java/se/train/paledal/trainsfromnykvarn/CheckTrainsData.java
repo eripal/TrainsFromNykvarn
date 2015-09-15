@@ -1,6 +1,8 @@
 package se.train.paledal.trainsfromnykvarn;
 
+import android.annotation.TargetApi;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.widget.TextView;
 
 import org.w3c.dom.Document;
@@ -20,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -30,7 +33,7 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 class CheckTrainsData extends AsyncTask<Void, Void, List<TrainData>> {
     private Exception exception;
-    private List<TextView> departures = new ArrayList<TextView>();
+    private List<TextView> departures = new ArrayList<>();
     public CheckTrainsData(List<TextView> tvl)
     {
         this.departures = tvl;
@@ -49,7 +52,7 @@ class CheckTrainsData extends AsyncTask<Void, Void, List<TrainData>> {
     protected void onPostExecute(List<TrainData> result)
     {
         for (int i=0;i<departures.size()/4 && i<3 && i<result.size();i++) {
-            departures.get(4*i+0).setText(result.get(i).avgang);
+            departures.get(4 * i).setText(result.get(i).avgang);
             departures.get(4*i+1).setText(result.get(i).tagnr);
             departures.get(4*i+2).setText(result.get(i).Information);
             departures.get(4*i+3).setText(result.get(i).gissadAvgang);
@@ -104,7 +107,7 @@ class CheckTrainsData extends AsyncTask<Void, Void, List<TrainData>> {
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(uc.getInputStream()));
             String inputLine;
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
 
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
@@ -116,6 +119,7 @@ class CheckTrainsData extends AsyncTask<Void, Void, List<TrainData>> {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     private List<TrainData> parseXml(String xml) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
@@ -126,7 +130,7 @@ class CheckTrainsData extends AsyncTask<Void, Void, List<TrainData>> {
         NodeList nodes = doc.getElementsByTagName("TrainAnnouncement");
 
 
-        List<TrainData> tdl = new ArrayList<TrainData>();
+        List<TrainData> tdl = new ArrayList<>();
         for (int i=0;i<nodes.getLength();i++)
         {
             Node node = nodes.item(i);
@@ -138,18 +142,18 @@ class CheckTrainsData extends AsyncTask<Void, Void, List<TrainData>> {
             time = time.split(":")[0] + ":" + time.split(":")[1];
             String info = "-";
             if (element.getElementsByTagName("EstimatedTimeAtLocation").getLength() > 0) {
-                if (element.getElementsByTagName("EstimatedTimeAtLocation").item(0).getFirstChild().getNodeValue().toString() != element.getElementsByTagName("AdvertisedTimeAtLocation").item(0).getFirstChild().getNodeValue().toString()) {
+                if (!Objects.equals(element.getElementsByTagName("EstimatedTimeAtLocation").item(0).getFirstChild().getNodeValue(), element.getElementsByTagName("AdvertisedTimeAtLocation").item(0).getFirstChild().getNodeValue())) {
                     info = "Delayed";
                     estTime = element.getElementsByTagName("EstimatedTimeAtLocation").item(0).getFirstChild().getNodeValue();
                     estTime = estTime.split("T")[1];
                     estTime = estTime.split(":")[0] + ":" + estTime.split(":")[1];
                 }
             }
-            if (element.getElementsByTagName("EstimatedTimeIsPreliminary").item(0).getFirstChild().getNodeValue().toString() == "true")
+            if (Objects.equals(element.getElementsByTagName("EstimatedTimeIsPreliminary").item(0).getFirstChild().getNodeValue(), "true"))
             {
                 info = "Preliminary";
             }
-            if (element.getElementsByTagName("Canceled").item(0).getFirstChild().getNodeValue().toString() == "true")
+            if (Objects.equals(element.getElementsByTagName("Canceled").item(0).getFirstChild().getNodeValue(), "true"))
             {
                 info = "Canceled";
             }
