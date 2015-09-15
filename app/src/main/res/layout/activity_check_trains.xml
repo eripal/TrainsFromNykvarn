@@ -1,0 +1,117 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".CheckTrains">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/tableLayout"
+        android:layout_above="@+id/button">
+
+        <TableRow>
+            <TextView
+                android:text="Avgång"
+                android:id="@+id/header1"
+                android:padding="3dip"
+                android:layout_column="1"/>
+            <TextView
+                android:text="Tågnr"
+                android:id="@+id/header2"
+                android:padding="3dip"
+                android:gravity="center"/>
+            <TextView
+                android:text="Info"
+                android:id="@+id/header3"
+                android:padding="3dip"
+                android:gravity="center"/>
+            <TextView
+                android:text="Nästa avgång"
+                android:id="@+id/header4"
+                android:padding="3dip"
+                android:gravity="center"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="5:50"
+                android:id="@+id/row1col1"
+                android:padding="3dip"
+                android:layout_column="1"/>
+            <TextView
+                android:text="971"
+                android:id="@+id/row1col2"
+                android:padding="3dip"
+                android:gravity="center"/>
+            <TextView
+                android:text="Försenat"
+                android:id="@+id/row1col3"
+                android:padding="3dip"
+                android:gravity="center"/>
+            <TextView
+                android:text="Läggesta 5:38"
+                android:id="@+id/row1col4"
+                android:padding="3dip"
+                android:gravity="center"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="6:50"
+                android:id="@+id/row2col1"
+                android:padding="3dip"
+                android:layout_column="1"/>
+            <TextView
+                android:text="971"
+                android:id="@+id/row2col2"
+                android:padding="3dip"
+                android:gravity="center"/>
+            <TextView
+                android:text="-"
+                android:id="@+id/row2col3"
+                android:padding="3dip"
+                android:gravity="center"/>
+            <TextView
+                android:text="Eskilstuna 6:20"
+                android:id="@+id/row2col4"
+                android:padding="3dip"
+                android:gravity="center"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="7:33"
+                android:id="@+id/row3col1"
+                android:padding="3dip"
+                android:layout_column="1"/>
+            <TextView
+                android:text="971"
+                android:id="@+id/row3col2"
+                android:padding="3dip"
+                android:gravity="center"/>
+            <TextView
+                android:text="Inställt"
+                android:id="@+id/row3col3"
+                android:padding="3dip"
+                android:gravity="center"/>
+            <TextView
+                android:text="Eskilstuna"
+                android:id="@+id/row3col4"
+                android:padding="3dip"
+                android:gravity="center"/>
+        </TableRow>
+    </TableLayout>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Refresh"
+        android:onClick="refresh"
+        android:id="@+id/button"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
